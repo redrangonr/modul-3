@@ -1,6 +1,6 @@
 package controller;
 
-import model.ProductList;
+import model.Product;
 import service.IProductService;
 import service.ProductService;
 
@@ -10,7 +10,7 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ProductServlet", value = "/ProductServlet")
+@WebServlet(name = "ProductServlet", value = "/product")
 public class ProductServlet extends HttpServlet {
     private IProductService productService = new ProductService();
     @Override
@@ -54,13 +54,13 @@ public class ProductServlet extends HttpServlet {
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
-        int Quantity = Integer.parseInt(request.getParameter("Quantity"));
+        int Quantity = Integer.parseInt(request.getParameter("quantity"));
         String Color = request.getParameter("color");
         String Category  = request.getParameter("category");
-        float Price =Float.parseFloat(request.getParameter("Price"));
+        float Price =Float.parseFloat(request.getParameter("price"));
 
-        ProductList productList  = new ProductList(id, name,Price,Quantity,Color,Category);
-        boolean isInserted= productService.update(id,productList);
+        Product product = new Product(id, name,Price,Quantity,Color,Category);
+        boolean isInserted= productService.update(id, product);
         if(!isInserted){
             request.setAttribute("message","Error!");
         }else {
@@ -75,9 +75,13 @@ public class ProductServlet extends HttpServlet {
     }
     private void createProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
+        int Quantity = Integer.parseInt(request.getParameter("quantity"));
+        String Color = request.getParameter("color");
+        String Category  = request.getParameter("category");
+        float Price =Float.parseFloat(request.getParameter("price"));
 
-        ProductList productList = new ProductList();
-        boolean isInserted = productService.add(productList);
+        Product product = new Product(name,Price,Quantity,Color,Category);
+        boolean isInserted = productService.add(product);
         if (!isInserted) {
             request.setAttribute("message","Error!");
         }else {
@@ -88,8 +92,8 @@ public class ProductServlet extends HttpServlet {
     }
     public void deleteProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        ProductList productList = productService.findById(id);
-        if (productList == null) {
+        Product product = productService.findById(id);
+        if (product == null) {
             RequestDispatcher dispatcher = request.getRequestDispatcher("/error-404.jsp");
             dispatcher.forward(request, response);
         }
@@ -98,19 +102,19 @@ public class ProductServlet extends HttpServlet {
     }
     private void showEditProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
-        ProductList productList = productService.findById(id);
+        Product product = productService.findById(id);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/Edit.jsp");
-        if (productList == null) {
+        if (product == null) {
             dispatcher = request.getRequestDispatcher("/error-404.jsp");
         }
-        request.setAttribute("product", productList);
+        request.setAttribute("product", product);
         dispatcher.forward(request, response);
     }
 
     private void showListProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<ProductList> productLists;
-        productLists = productService.findAll();
-        request.setAttribute("productList", productLists);
+        List<Product> products;
+        products = productService.findAll();
+        request.setAttribute("product", products);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/List.jsp");
         dispatcher.forward(request, response);
     }

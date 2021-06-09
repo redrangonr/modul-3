@@ -1,25 +1,23 @@
 package dao;
 
-import dao.InterfaceDAO;
-import dao.SQLConection;
-import model.ProductList;
+import model.Product;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAO implements IProductDAO {
+public class ProductDAO implements IProdutctDAO {
 
     public static final String SELECT_ALL_PRODUCT = "select * from productlist;";
     public static final String SELECT_PRODUCT_BY_ID = "select * from productlist where id = ?;";
     public static final String INSERT_PRODUCT = "insert into productlist( ProductName, Price, Quantity, Color, Category) values (?,?,?,?,?);";
-    public static final String UPDATE_PRODUCT_BY_ID = "update productlist set ProductName = ?,Price = ?,Quantity =?,Color =?,Category =?where id=?;";
+    public static final String UPDATE_PRODUCT_BY_ID = "update productlist set ProductName=?,Price =?,Quantity = ?,Color = ?,Category =? where id=?;";
     public static final String DELETE_PRODUCT = "delete from productlist where id =?;";
 
 
     @Override
-    public List<ProductList> findAll() {
-        List<ProductList> productLists= new ArrayList<>();
+    public List<Product> findAll() {
+        List<Product> products = new ArrayList<>();
         Connection connection = SQLConection.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_PRODUCT);
@@ -31,18 +29,18 @@ public class ProductDAO implements IProductDAO {
                 int quantity = resultSet.getInt("Quantity");
                 String color = resultSet.getString("Color");
                 String category = resultSet.getString("Category");
-                productLists.add(new ProductList( id,  productName,  price,  quantity, color,  category));
+                products.add(new Product( id,  productName,  price,  quantity, color,  category));
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return productLists;
+        return products;
 
     }
 
     @Override
-    public ProductList findById(int id) {
-        ProductList productList = new ProductList();
+    public Product findById(int id) {
+        Product product = new Product();
         Connection connection = SQLConection.getConnection();
         try{
             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_BY_ID);
@@ -54,30 +52,30 @@ public class ProductDAO implements IProductDAO {
                 int quantity = resultSet.getInt("Quantity");
                 String color = resultSet.getString("Color");
                 String category = resultSet.getString("Category");
-                productList.setProductName(name);
-                productList.setPrice(price);
-                productList.setQuantity(quantity);
-                productList.setColor(color);
-                productList.setCategory(category);
+                product.setProductName(name);
+                product.setPrice(price);
+                product.setQuantity(quantity);
+                product.setColor(color);
+                product.setCategory(category);
 
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return productList;
+        return product;
     }
 
     @Override
-    public boolean add(ProductList productList) {
+    public boolean add(Product product) {
         Connection connection = SQLConection.getConnection();
         int rowInserted = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUCT);
-            preparedStatement.setString(1, productList.getProductName());
-            preparedStatement.setFloat(2,productList.getPrice());
-            preparedStatement.setInt(3,productList.getQuantity());
-            preparedStatement.setString(4,productList.getColor());
-            preparedStatement.setString(5,productList.getCategory());
+            preparedStatement.setString(1, product.getProductName());
+            preparedStatement.setFloat(2, product.getPrice());
+            preparedStatement.setInt(3, product.getQuantity());
+            preparedStatement.setString(4, product.getColor());
+            preparedStatement.setString(5, product.getCategory());
             rowInserted = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -86,17 +84,17 @@ public class ProductDAO implements IProductDAO {
     }
 
     @Override
-    public boolean update(int id,ProductList productList) {
+    public boolean update(int id, Product product) {
         Connection connection = SQLConection.getConnection();
         int rowUpdated = 0;
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_PRODUCT_BY_ID);
             preparedStatement.setInt(1, id);
-            preparedStatement.setString(2, productList.getProductName());
-            preparedStatement.setFloat(3,productList.getPrice());
-            preparedStatement.setInt(4,productList.getQuantity());
-            preparedStatement.setString(5,productList.getColor());
-            preparedStatement.setString(6,productList.getCategory());
+            preparedStatement.setString(2, product.getProductName());
+            preparedStatement.setFloat(3, product.getPrice());
+            preparedStatement.setInt(4, product.getQuantity());
+            preparedStatement.setString(5, product.getColor());
+            preparedStatement.setString(6, product.getCategory());
             rowUpdated = preparedStatement.executeUpdate();
         } catch (SQLException throwables) {
             throwables.printStackTrace();

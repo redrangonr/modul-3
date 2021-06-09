@@ -2,7 +2,7 @@ package service;
 
 import dao.InterfaceDAO;
 import dao.ProductDAO;
-import model.ProductList;
+import model.Product;
 
 import java.util.List;
 
@@ -10,23 +10,23 @@ public class ProductService implements IProductService{
     private InterfaceDAO productDAO = new ProductDAO();
 
     @Override
-    public List<ProductList> findAll() {
+    public List<Product> findAll() {
         return productDAO.findAll();
     }
 
     @Override
-    public ProductList findById(int id) {
+    public Product findById(int id) {
         return productDAO.findById(id);
     }
 
     @Override
-    public boolean add(ProductList productList) {
-        return productDAO.add(productList);
+    public boolean add(Product product) {
+        return productDAO.add(product);
     }
 
     @Override
-    public boolean update(int id, ProductList productList) {
-        return productDAO.update(id,productList);
+    public boolean update(int id, Product product) {
+        return productDAO.update(id, product);
     }
 
     @Override

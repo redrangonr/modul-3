@@ -1,6 +1,7 @@
 package service;
 
-import model.ProductList;
+import dao.InterfaceDAO;
+import model.Product;
 
-public interface IProductService extends InterfaceService<ProductList>{
+public interface IProductService extends InterfaceService<Product> {
 }
