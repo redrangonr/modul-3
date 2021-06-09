@@ -12,7 +12,7 @@
     <title>Product List</title>
 </head>
 <body>
-<div>
+<div align="left">
 <span >
     <button href="/product?action=create" >+ ADD NEW PRODUCT</button>
 </span>

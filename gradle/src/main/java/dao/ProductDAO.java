@@ -6,12 +6,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductDAO implements IProductDAO {
+public class ProductDAO implements IProdutctDAO {
 
     public static final String SELECT_ALL_PRODUCT = "select * from productlist;";
     public static final String SELECT_PRODUCT_BY_ID = "select * from productlist where id = ?;";
     public static final String INSERT_PRODUCT = "insert into productlist( ProductName, Price, Quantity, Color, Category) values (?,?,?,?,?);";
-    public static final String UPDATE_PRODUCT_BY_ID = "update productlist set ProductName =? where id=?;";
+    public static final String UPDATE_PRODUCT_BY_ID = "update productlist set ProductName=?,Price =?,Quantity = ?,Color = ?,Category =? where id=?;";
     public static final String DELETE_PRODUCT = "delete from productlist where id =?;";
 
 
