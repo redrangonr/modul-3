@@ -54,10 +54,10 @@ public class ProductServlet extends HttpServlet {
     private void editProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id"));
         String name = request.getParameter("name");
-        int Quantity = Integer.parseInt(request.getParameter("Quantity"));
+        int Quantity = Integer.parseInt(request.getParameter("quantity"));
         String Color = request.getParameter("color");
         String Category  = request.getParameter("category");
-        float Price =Float.parseFloat(request.getParameter("Price"));
+        float Price =Float.parseFloat(request.getParameter("price"));
 
         Product product = new Product(id, name,Price,Quantity,Color,Category);
         boolean isInserted= productService.update(id, product);
@@ -75,8 +75,12 @@ public class ProductServlet extends HttpServlet {
     }
     private void createProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
+        int Quantity = Integer.parseInt(request.getParameter("quantity"));
+        String Color = request.getParameter("color");
+        String Category  = request.getParameter("category");
+        float Price =Float.parseFloat(request.getParameter("price"));
 
-        Product product = new Product();
+        Product product = new Product(name,Price,Quantity,Color,Category);
         boolean isInserted = productService.add(product);
         if (!isInserted) {
             request.setAttribute("message","Error!");
@@ -110,7 +114,7 @@ public class ProductServlet extends HttpServlet {
     private void showListProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products;
         products = productService.findAll();
-        request.setAttribute("productList", products);
+        request.setAttribute("product", products);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/List.jsp");
         dispatcher.forward(request, response);
     }
