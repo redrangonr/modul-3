@@ -17,7 +17,14 @@ public class Product {
         Category = category;
     }
     public Product(){
+    }
 
+    public Product(String productName, float price, int quantity, String color, String category) {
+        ProductName = productName;
+        Price = price;
+        Quantity = quantity;
+        Color = color;
+        Category = category;
     }
 
     public int getId() {
